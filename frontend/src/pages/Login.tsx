@@ -1,4 +1,6 @@
 import { useForm } from "react-hook-form";
+import { useAuth } from "../context/AuthContext";
+
 
 type LoginFormData = {
   email: string;
@@ -13,10 +15,21 @@ function Login() {
     formState: { errors },
   } = useForm<LoginFormData>();
 
+	const { login } = useAuth();
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log(data);
-  };
+	const onSubmit = async (data: LoginFormData) => {
+		try {
+			await login(
+			data.email,
+			data.password
+			);
+
+			console.log("Logged in!");
+
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 
   return (
